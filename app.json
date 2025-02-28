@@ -17,7 +17,10 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.carlosmgonzalez.bitnovo_prueba_tecnica",
-      "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -34,18 +37,18 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": [
-            "./assets/fonts/Mulish-VariableFont_wght.ttf"
-          ]
-        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "75f6bfc3-fbd9-4ef9-8e5b-26171f81a94e"
+      }
     }
   }
 }

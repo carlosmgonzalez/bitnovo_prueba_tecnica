@@ -1,8 +1,8 @@
-import { CurrencyProps, useStoreApp } from "@/hooks/useStoreApp";
+import { useStoreApp } from "@/hooks/useStoreApp";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { AntDesign } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -41,7 +41,7 @@ export default function HomeScreen() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Device-Id": "a32b39e6-a450-4112-bc5e-9cd72d97b008",
+        "X-Device-Id": process.env.X_DEVICE_ID || "",
       },
       body: JSON.stringify(data),
     })
