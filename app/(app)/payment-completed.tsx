@@ -9,6 +9,7 @@ export default function PaymentCompleted() {
   const setIdentifier = useStoreApp((state) => state.setIdentifier);
   const setAmount = useStoreApp((state) => state.setAmount);
   const setPaymentStatus = useStoreApp((state) => state.setPaymentStatus);
+  const setConcept = useStoreApp((state) => state.setConcept);
 
   return (
     <View style={styles.container}>
@@ -42,10 +43,11 @@ export default function PaymentCompleted() {
       </View>
       <Pressable
         onPress={() => {
-          router.dismissAll();
           setIdentifier("");
           setAmount("");
           setPaymentStatus("close");
+          setConcept("");
+          router.dismissAll();
         }}
         style={{
           width: "100%",

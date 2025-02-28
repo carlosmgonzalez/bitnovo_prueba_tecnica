@@ -1,3 +1,6 @@
+import ContinueButton from "@/components/ui/ContinueButton";
+import InputAmount from "@/components/ui/InputAmount";
+import InputConcept from "@/components/ui/InputConcept";
 import { useStoreApp } from "@/hooks/useStoreApp";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { AntDesign } from "@expo/vector-icons";
@@ -14,7 +17,6 @@ import {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [concept, setConcept] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const currency = useStoreApp((state) => state.currency);
@@ -22,6 +24,8 @@ export default function HomeScreen() {
   const setAmount = useStoreApp((state) => state.setAmount);
   const setWebUrl = useStoreApp((state) => state.setWebUrl);
   const setIdentifier = useStoreApp((state) => state.setIdentifier);
+  const concept = useStoreApp((state) => state.concept);
+  const setConcept = useStoreApp((state) => state.setConcept);
 
   interface DataProps {
     identifier: string;
@@ -35,13 +39,14 @@ export default function HomeScreen() {
       expected_output_amount: amount,
       fiat: currency,
       language: "ES",
+      notes: concept,
     };
 
     fetch("https://payments.pre-bnvo.com/api/v1/orders/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Device-Id": process.env.X_DEVICE_ID || "",
+        "X-Device-Id": process.env.EXPO_PUBLIC_X_DEVICE_ID || "",
       },
       body: JSON.stringify(data),
     })
@@ -86,91 +91,18 @@ export default function HomeScreen() {
         }}
       />
       <View style={{ flex: 1 }}>
-        <View style={styles.inputContainer}>
-          <Text
-            style={{
-              ...styles.textCurrency,
-              color:
-                amount.length == 0 ? "rgba(192,204,218,1)" : "rgba(3,90,197,1)",
-            }}
-          >
-            {symbolCurrency(currency)}
-          </Text>
-          <TextInput
-            onChangeText={setAmount}
-            value={amount.toString()}
-            placeholder={"0.00"}
-            keyboardType="numeric"
-            multiline={false}
-            numberOfLines={1}
-            placeholderTextColor={"rgba(192,204,218,1)"}
-            style={{
-              fontSize: 40,
-              fontFamily: "MulishBold",
-              color: "rgba(3,90,197,1)",
-            }}
-            cursorColor="rgba(3,90,197,1)"
-          />
-        </View>
-        <View style={styles.containerConcept}>
-          <Text style={styles.textConcept}>Concepto</Text>
-          <TextInput
-            onChangeText={setConcept}
-            value={concept}
-            placeholder="Añadir descripción del pago"
-            placeholderTextColor={"rgba(192,204,218,1)"}
-            multiline={true}
-            maxLength={140}
-            editable
-            style={{
-              fontSize: 14,
-              fontFamily: "MulishRegular",
-              color: "rgba(0,40,89,1)",
-              borderWidth: 1,
-              borderColor: "rgba(229,233,242,1)",
-              borderRadius: 6,
-              paddingHorizontal: 12,
-              paddingVertical: 18,
-            }}
-          />
-          {concept.length > 0 && (
-            <Text style={styles.infoCharacter}>
-              {concept.length}/140caracteres
-            </Text>
-          )}
-        </View>
+        <InputAmount
+          amount={amount}
+          setAmount={setAmount}
+          currency={currency}
+        />
+        <InputConcept concept={concept} setConcept={setConcept} />
       </View>
-      <View style={styles.containerButtonNext}>
-        <Pressable
-          onPressIn={() => createOrder()}
-          style={[
-            styles.buttonNext,
-            {
-              backgroundColor:
-                amount.length == 0 ? "rgba(234,243,255,1)" : "rgba(3,90,197,1)",
-            },
-          ]}
-          disabled={amount.length == 0}
-        >
-          {isLoading ? (
-            <ActivityIndicator color={"rgba(255,255,255,1)"} />
-          ) : (
-            <Text
-              style={[
-                styles.textButtonNext,
-                {
-                  color:
-                    amount.length == 0
-                      ? "rgba(113,176,253,1)"
-                      : "rgba(255,255,255,1)",
-                },
-              ]}
-            >
-              Continuar
-            </Text>
-          )}
-        </Pressable>
-      </View>
+      <ContinueButton
+        amount={amount}
+        isLoading={isLoading}
+        createOrder={createOrder}
+      />
     </View>
   );
 }
@@ -197,53 +129,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",
-    marginHorizontal: 18,
-  },
-  border: {
-    borderTopWidth: 0.5,
-    borderTopColor: "rgba(199,199,199,0.5)",
-  },
-  inputContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 10,
-    marginVertical: 35,
-  },
-  textCurrency: {
-    fontSize: 40,
-    fontFamily: "MulishBold",
-  },
-  containerConcept: {
-    flexDirection: "column",
-    gap: 5,
-  },
-  textConcept: {
-    fontFamily: "MulishBold",
-    color: "rgba(0,40,89,1)",
-    fontSize: 14,
-  },
-  infoCharacter: {
-    fontFamily: "MulishRegular",
-    color: "rgba(100,113,132,1)",
-    fontSize: 12,
-    alignSelf: "flex-end",
-  },
-  containerButtonNext: {
-    width: "100%",
-    marginBottom: 20,
-  },
-  buttonNext: {
-    width: "100%",
-    paddingHorizontal: 24,
-    paddingVertical: 18,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 6,
-  },
-  textButtonNext: {
-    fontFamily: "MulishSemiBold",
-    fontSize: 16,
+    paddingHorizontal: 18,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(200,200,200,0.3)",
   },
 });

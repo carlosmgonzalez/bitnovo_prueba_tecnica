@@ -29,6 +29,8 @@ interface StoreAppState {
   setWebUrl: (webUrl: string) => void;
   paymentStatus: string;
   setPaymentStatus: (status: string) => void;
+  concept: string;
+  setConcept: (concept: string) => void;
 }
 
 export const useStoreApp = create<StoreAppState>()((set) => {
@@ -45,5 +47,7 @@ export const useStoreApp = create<StoreAppState>()((set) => {
     setWebUrl: (webUrl) => set(() => ({ webUrl })),
     paymentStatus: "pending",
     setPaymentStatus: (paymentStatus) => set(() => ({ paymentStatus })),
+    concept: "",
+    setConcept: (concept) => set(() => ({ concept })),
   };
 });

@@ -34,16 +34,18 @@ export default function checking_payment() {
   }, [paymentStatus]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      {isModalOpen && <RequestSentScreen setIsModalOpen={setIsModalOpen} />}
-      <View style={{ gap: 16 }}>
-        <InfoTopCard amount={amount} currency={currency} />
-        <ClipboardQrShare webUrl={webUrl} />
-        <EmailShare />
-        <WhatsappShare setIsModalOpen={setIsModalOpen} />
-        <OtherApplicationShare webUrl={webUrl} />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {isModalOpen && <RequestSentScreen setIsModalOpen={setIsModalOpen} />}
+        <View style={{ gap: 16 }}>
+          <InfoTopCard amount={amount} currency={currency} />
+          <ClipboardQrShare webUrl={webUrl} />
+          <EmailShare />
+          <WhatsappShare setIsModalOpen={setIsModalOpen} />
+          <OtherApplicationShare webUrl={webUrl} />
+        </View>
+        <NewRequestButton />
       </View>
-      <NewRequestButton />
     </SafeAreaView>
   );
 }
@@ -52,6 +54,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 18,
+    borderTopWidth: 1,
+    borderTopColor: "rgba(200,200,200,0.3)",
     justifyContent: "space-between",
   },
 });

@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
 import IconInfoCircle from "@/assets/icons/info_circle.svg";
 import QRCode from "react-native-qrcode-svg";
 import { useStoreApp } from "@/hooks/useStoreApp";
 import { symbolCurrency } from "@/utils/symbolCurrency";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import IconArrowLeft from "@/assets/icons/arrow_left.svg";
 
 export default function qr() {
   const router = useRouter();
@@ -13,6 +14,7 @@ export default function qr() {
   const amount = useStoreApp((state) => state.amount);
   const currency = useStoreApp((state) => state.currency);
   const paymentStatus = useStoreApp((state) => state.paymentStatus);
+  const isSymbolCurrency = symbolCurrency(currency);
 
   useEffect(() => {
     if (paymentStatus === "completed") {
@@ -22,6 +24,30 @@ export default function qr() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerLeft: () => (
+            <Pressable
+              onPressIn={router.back}
+              style={({ pressed }) => [
+                {
+                  width: 32,
+                  height: 32,
+                  borderRadius: 24,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: 15,
+                  backgroundColor: pressed
+                    ? "rgba(239, 242, 247, 0.78)"
+                    : "rgba(239,242,247,1)",
+                },
+              ]}
+            >
+              <IconArrowLeft />
+            </Pressable>
+          ),
+        }}
+      />
       <View style={styles.alertaInfoContainer}>
         <IconInfoCircle />
         <Text style={styles.textInfo}>
@@ -43,11 +69,10 @@ export default function qr() {
           <QRCode value={webUrl} size={270} color="rgba(0,40,89,1)" />
         </View>
         <Text style={styles.textAmount}>
-          {Number(amount).toLocaleString("es-ES", {
-            minimumFractionDigits: 2,
-          }) +
-            " " +
-            symbolCurrency(currency)}
+          {isSymbolCurrency == "$" && isSymbolCurrency + " "}
+          {amount}
+          {(isSymbolCurrency == "€" || isSymbolCurrency == "£") &&
+            " " + isSymbolCurrency}
         </Text>
         <Text style={styles.textInfoFooter}>
           Esta pantalla se actualizará automáticamente.

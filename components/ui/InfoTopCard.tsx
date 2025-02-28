@@ -3,6 +3,7 @@ import React from "react";
 import IconSolicitud from "@/assets/icons/icono_solicitud.svg";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { CurrencyProps } from "@/hooks/useStoreApp";
+import { formatAmount } from "@/utils/formatAmount";
 
 export default function InfoTopCard({
   amount,
@@ -11,6 +12,8 @@ export default function InfoTopCard({
   amount: string;
   currency: CurrencyProps;
 }) {
+  const isSymbolCurrency = symbolCurrency(currency);
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -18,11 +21,10 @@ export default function InfoTopCard({
         <View style={{ flexDirection: "column" }}>
           <Text style={styles.textSolicitud}>Solicitud de pago</Text>
           <Text style={styles.textAmount}>
-            {Number(amount).toLocaleString("es-ES", {
-              minimumFractionDigits: 2,
-            }) +
-              " " +
-              symbolCurrency(currency)}
+            {isSymbolCurrency == "$" && isSymbolCurrency + " "}
+            {amount}
+            {(isSymbolCurrency == "€" || isSymbolCurrency == "£") &&
+              " " + isSymbolCurrency}
           </Text>
         </View>
       </View>

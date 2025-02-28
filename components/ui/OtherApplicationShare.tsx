@@ -5,11 +5,6 @@ import IconShare from "@/assets/icons/share.svg";
 
 export default function OtherApplicationShare({ webUrl }: { webUrl: string }) {
   const shareLink = async () => {
-    const isAvailable = await Sharing.isAvailableAsync();
-    if (!isAvailable) {
-      Alert.prompt("No se puede compartir en este dispositivo");
-      return;
-    }
     await Sharing.shareAsync(webUrl);
   };
 

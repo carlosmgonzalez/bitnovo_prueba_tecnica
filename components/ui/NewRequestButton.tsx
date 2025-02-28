@@ -12,6 +12,7 @@ export default function NewRequestButton() {
   const setCountry = useStoreApp((state) => state.setCountry);
   const setWebUrl = useStoreApp((state) => state.setWebUrl);
   const setIdentifier = useStoreApp((state) => state.setIdentifier);
+  const setConcept = useStoreApp((state) => state.setConcept);
 
   const newPaymentRequest = () => {
     setAmount("");
@@ -19,7 +20,8 @@ export default function NewRequestButton() {
     setCountry(CountryProps.ESPAÑA);
     setWebUrl("");
     setIdentifier("");
-    router.back();
+    setConcept("");
+    router.dismissAll();
   };
 
   return (
