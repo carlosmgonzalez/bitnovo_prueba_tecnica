@@ -14,7 +14,7 @@
         "buildType": "apk"
       },
       "env": {
-        "XDevideId": "XDeviceId"
+        "EXPO_PUBLIC_X_DEVIDE_ID": "EXPO_PUBLIC_X_DEVIDE_ID"
       }
     },
     "production": {
