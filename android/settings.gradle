@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'bitnovo_prueba_tecnica'
+rootProject.name = 'bitnovo'
 
 dependencyResolutionManagement {
   versionCatalogs {

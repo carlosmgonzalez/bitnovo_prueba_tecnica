@@ -21,7 +21,7 @@ export const usePaymentStatus = (identifier: string) => {
       // "CO" significa completada
       // "CA" significa cancelada
       // En este caso colocare cancelada
-      if (data.status == "CA") {
+      if (data.status == "CO") {
         setPaymentstatus("completed");
       }
     };
