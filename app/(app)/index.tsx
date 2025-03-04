@@ -2,18 +2,10 @@ import ContinueButton from "@/components/ui/ContinueButton";
 import InputAmount from "@/components/ui/InputAmount";
 import InputConcept from "@/components/ui/InputConcept";
 import { useStoreApp } from "@/hooks/useStoreApp";
-import { symbolCurrency } from "@/utils/symbolCurrency";
 import { AntDesign } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import * as Sharing from "expo-sharing";
 import IconShare from "@/assets/icons/share.svg";

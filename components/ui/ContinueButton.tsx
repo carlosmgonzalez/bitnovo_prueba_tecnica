@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
 
 export default function ContinueButton({
@@ -16,17 +10,20 @@ export default function ContinueButton({
   amount: string;
   isLoading: boolean;
 }) {
+  const isNumber = Number(amount) > 0;
+
   return (
     <Pressable
       onPressIn={() => createOrder()}
       style={[
         styles.button,
         {
-          backgroundColor:
-            amount.length == 0 ? "rgba(234,243,255,1)" : "rgba(3,90,197,1)",
+          backgroundColor: !isNumber
+            ? "rgba(234,243,255,1)"
+            : "rgba(3,90,197,1)",
         },
       ]}
-      disabled={amount.length == 0}
+      disabled={!isNumber}
     >
       {isLoading ? (
         <ActivityIndicator color={"rgba(255,255,255,1)"} />
@@ -35,10 +32,7 @@ export default function ContinueButton({
           style={[
             styles.textButton,
             {
-              color:
-                amount.length == 0
-                  ? "rgba(113,176,253,1)"
-                  : "rgba(255,255,255,1)",
+              color: !isNumber ? "rgba(113,176,253,1)" : "rgba(255,255,255,1)",
             },
           ]}
         >
