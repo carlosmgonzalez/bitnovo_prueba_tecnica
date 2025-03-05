@@ -16,6 +16,12 @@ export default function InputAmount({
   const isSymbolCurrency = symbolCurrency(currency);
 
   const formatInputAmount = (text: string) => {
+    if (text.length == 0) {
+      return;
+    } else if (!(Number(text) > 0)) {
+      setAmount("");
+      return;
+    }
     const formatted = formatAmount(text);
     setAmount(formatted);
   };
@@ -35,7 +41,7 @@ export default function InputAmount({
       )}
       <TextInput
         onChangeText={setAmount}
-        value={amount.toString()}
+        value={amount}
         placeholder={"0.00"}
         keyboardType="numeric"
         multiline={false}

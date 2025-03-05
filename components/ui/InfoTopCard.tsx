@@ -3,7 +3,6 @@ import React from "react";
 import IconSolicitud from "@/assets/icons/icono_solicitud.svg";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { CurrencyProps } from "@/hooks/useStoreApp";
-import { formatAmount } from "@/utils/formatAmount";
 
 export default function InfoTopCard({
   amount,
