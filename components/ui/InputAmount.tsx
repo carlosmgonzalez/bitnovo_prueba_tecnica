@@ -3,6 +3,10 @@ import React from "react";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { CurrencyProps } from "@/hooks/useStoreApp";
 import { formatAmount } from "@/utils/formatAmount";
+import { inputs } from "@/styles/inputs";
+import { Colors } from "@/constants/CustumColors";
+import { ThemedText } from "../ThemedText";
+import { containers } from "@/styles/containers";
 
 export default function InputAmount({
   amount,
@@ -26,61 +30,59 @@ export default function InputAmount({
     setAmount(formatted);
   };
 
+  const handleChangeAmount = (text: string) => {
+    let formattedText = text.replace(/[^0-9.]/g, "");
+
+    const dotCount = (formattedText.match(/\./g) || []).length;
+    if (dotCount > 1) return;
+
+    if (formattedText.includes(".")) {
+      const [integer, decimal] = formattedText.split(".");
+      if (decimal.length > 2) return;
+      formattedText = integer + "." + decimal;
+    }
+
+    const numericAmount = parseFloat(formattedText);
+    if (numericAmount > 10000000) return;
+
+    setAmount(formattedText);
+  };
+
   return (
-    <View style={styles.inputContainer}>
+    <View style={containers.amount}>
       {isSymbolCurrency == "$" && (
-        <Text
+        <ThemedText
+          variant="currency"
           style={{
-            ...styles.textCurrency,
             color:
               amount.length == 0 ? "rgba(192,204,218,1)" : "rgba(3,90,197,1)",
           }}
         >
           {isSymbolCurrency}
-        </Text>
+        </ThemedText>
       )}
       <TextInput
-        onChangeText={setAmount}
+        onChangeText={handleChangeAmount}
         value={amount}
         placeholder={"0.00"}
         keyboardType="numeric"
         multiline={false}
         numberOfLines={1}
         placeholderTextColor={"rgba(192,204,218,1)"}
-        style={{
-          fontSize: 40,
-          fontFamily: "MulishBold",
-          color: "rgba(3,90,197,1)",
-        }}
+        style={inputs.amount}
         cursorColor="rgba(3,90,197,1)"
         onEndEditing={() => formatInputAmount(amount)}
       />
       {(isSymbolCurrency === "€" || isSymbolCurrency === "£") && (
-        <Text
+        <ThemedText
+          variant="currency"
           style={{
-            ...styles.textCurrency,
-            color:
-              amount.length == 0 ? "rgba(192,204,218,1)" : "rgba(3,90,197,1)",
+            color: amount.length == 0 ? Colors.lightestGrey : Colors.blue,
           }}
         >
           {isSymbolCurrency}
-        </Text>
+        </ThemedText>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 10,
-    marginVertical: 35,
-  },
-  textCurrency: {
-    fontSize: 40,
-    fontFamily: "MulishBold",
-  },
-});

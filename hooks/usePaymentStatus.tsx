@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useStoreApp } from "./useStoreApp";
 
 export const usePaymentStatus = (identifier: string) => {
-  const setPaymentstatus = useStoreApp((state) => state.setPaymentStatus);
+  const { setState } = useStoreApp();
 
   useEffect(() => {
     if (!identifier) return;
@@ -21,8 +21,8 @@ export const usePaymentStatus = (identifier: string) => {
       // "CO" significa completada
       // "CA" significa cancelada
       // En este caso colocare cancelada
-      if (data.status == "CO") {
-        setPaymentstatus("completed");
+      if (data.status == "CA") {
+        setState({ paymentStatus: "completed" });
       }
     };
 

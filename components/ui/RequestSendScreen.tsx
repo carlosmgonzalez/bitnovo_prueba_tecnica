@@ -3,7 +3,7 @@ import React from "react";
 import IconTickCircle from "@/assets/icons/tick_circle.svg";
 import { BlurView } from "@react-native-community/blur";
 
-export default function RequestSentScreen({
+export default function RequestSendScreen({
   setIsModalOpen,
 }: {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;

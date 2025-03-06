@@ -15,39 +15,33 @@ export enum CountryProps {
   HONGKONG = "Hong Kong",
   HONDURAS = "Honduras",
 }
-
-interface StoreAppState {
+interface AppState {
   currency: CurrencyProps;
-  setCurrency: (curr: CurrencyProps) => void;
   amount: string;
-  setAmount: (amount: string) => void;
   country: CountryProps;
-  setCountry: (country: CountryProps) => void;
   identifier: string;
-  setIdentifier: (id: string) => void;
   webUrl: string;
-  setWebUrl: (webUrl: string) => void;
   paymentStatus: string;
-  setPaymentStatus: (status: string) => void;
   concept: string;
-  setConcept: (concept: string) => void;
 }
 
-export const useStoreApp = create<StoreAppState>()((set) => {
-  return {
+interface StoreAppState {
+  state: AppState;
+  setState: (newState: Partial<AppState>) => void;
+}
+
+export const useStoreApp = create<StoreAppState>((set) => ({
+  state: {
     currency: CurrencyProps.USD,
-    setCurrency: (currency) => set(() => ({ currency })),
     amount: "",
-    setAmount: (amount) => set(() => ({ amount })),
     country: CountryProps.ESPAÑA,
-    setCountry: (country) => set(() => ({ country })),
     identifier: "",
-    setIdentifier: (identifier) => set(() => ({ identifier })),
     webUrl: "",
-    setWebUrl: (webUrl) => set(() => ({ webUrl })),
     paymentStatus: "pending",
-    setPaymentStatus: (paymentStatus) => set(() => ({ paymentStatus })),
     concept: "",
-    setConcept: (concept) => set(() => ({ concept })),
-  };
-});
+  },
+  setState: (newState) =>
+    set((store) => ({
+      state: { ...store.state, ...newState },
+    })),
+}));

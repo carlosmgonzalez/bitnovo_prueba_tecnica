@@ -1,37 +1,39 @@
+import { ThemedText } from "@/components/ThemedText";
 import ContinueButton from "@/components/ui/ContinueButton";
 import InputAmount from "@/components/ui/InputAmount";
 import InputConcept from "@/components/ui/InputConcept";
+import { Colors } from "@/constants/CustumColors";
 import { useStoreApp } from "@/hooks/useStoreApp";
+import { buttons } from "@/styles/buttons";
+import { containers } from "@/styles/containers";
 import { AntDesign } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
-import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, View } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const currency = useStoreApp((state) => state.currency);
-  const amount = useStoreApp((state) => state.amount);
-  const setAmount = useStoreApp((state) => state.setAmount);
-  const setWebUrl = useStoreApp((state) => state.setWebUrl);
-  const setIdentifier = useStoreApp((state) => state.setIdentifier);
-  const concept = useStoreApp((state) => state.concept);
-  const setConcept = useStoreApp((state) => state.setConcept);
+  const { setState, state } = useStoreApp();
 
   interface DataProps {
     identifier: string;
     web_url: string;
   }
 
+  // useEffect(() => {
+  //   router.navigate("/payment-completed");
+  // }, []);
+
   const createOrder = () => {
     setIsLoading(true);
 
     const data = {
-      expected_output_amount: amount,
-      fiat: currency,
+      expected_output_amount: state.amount,
+      fiat: state.currency,
       language: "ES",
-      notes: concept,
+      notes: state.concept,
     };
 
     fetch("https://payments.pre-bnvo.com/api/v1/orders/", {
@@ -44,8 +46,10 @@ export default function HomeScreen() {
     })
       .then((res) => {
         res.json().then((data: DataProps) => {
-          setIdentifier(data.identifier);
-          setWebUrl(data.web_url);
+          // setIdentifier(data.identifier);
+          setState({ identifier: data.identifier });
+          // setWebUrl(data.web_url);
+          setState({ webUrl: data.web_url });
           console.log(data);
         });
       })
@@ -59,7 +63,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={containers.page}>
       <Stack.Screen
         options={{
           headerRight: () => (
@@ -68,61 +72,36 @@ export default function HomeScreen() {
                 router.navigate("/select-currency");
               }}
               style={({ pressed }) => [
-                styles.headerButtonContainer,
+                buttons.headerRight,
                 {
                   backgroundColor: pressed
-                    ? "rgba(167, 170, 173, 0.3)"
-                    : "rgba(211,220,230,0.3)",
+                    ? Colors.transparentGrey
+                    : Colors.transparentLightGrey,
                 },
               ]}
             >
-              <Text style={styles.headerButtonText}>{currency}</Text>
-              <AntDesign name="down" size={13} color="rgba(0,40,89,1)" />
+              <ThemedText variant="labelSmallBold">{state.currency}</ThemedText>
+              <AntDesign name="down" size={13} color={Colors.darkBlue} />
             </Pressable>
           ),
         }}
       />
       <View style={{ flex: 1 }}>
         <InputAmount
-          amount={amount}
-          setAmount={setAmount}
-          currency={currency}
+          amount={state.amount}
+          setAmount={(amount) => setState({ amount: amount })}
+          currency={state.currency}
         />
-        <InputConcept concept={concept} setConcept={setConcept} />
+        <InputConcept
+          concept={state.concept}
+          setConcept={(e) => setState({ concept: e })}
+        />
       </View>
       <ContinueButton
-        amount={amount}
+        amount={state.amount}
         isLoading={isLoading}
         createOrder={createOrder}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  headerButtonContainer: {
-    borderRadius: 24,
-    backgroundColor: "rgba(211,220,230,0.3)",
-    opacity: 30,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    width: 70,
-    height: 28,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 8,
-  },
-  headerButtonText: {
-    fontFamily: "MulishBold",
-    fontSize: 12,
-    color: "rgba(0,40,89,1)",
-  },
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 18,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(200,200,200,0.3)",
-  },
-});

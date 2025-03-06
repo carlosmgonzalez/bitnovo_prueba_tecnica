@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import IconArrowDown from "@/assets/icons/arrow_down.svg";
 import IconWhatsapp from "@/assets/icons/whatsapp.svg";
@@ -6,6 +6,10 @@ import { useStoreApp } from "@/hooks/useStoreApp";
 import { countryInfo } from "@/utils/countryInfo";
 import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
+import { ThemedText } from "../ThemedText";
+import { containers } from "@/styles/containers";
+import { buttons } from "@/styles/buttons";
+import { Colors } from "@/constants/CustumColors";
 
 export default function WhatsappShare({
   setIsModalOpen,
@@ -14,10 +18,11 @@ export default function WhatsappShare({
 }) {
   const router = useRouter();
 
-  const country = useStoreApp((state) => state.country);
+  const { state } = useStoreApp();
+
   const [number, setNumber] = useState("");
   const [isSelectedWp, setIsSelectedWp] = useState(false);
-  const sufijo = countryInfo(country).sufijo;
+  const sufijo = countryInfo(state.country).sufijo;
 
   const sendWhatsappMessage = () => {
     const phoneNumber = `${sufijo}${number}`;
@@ -40,53 +45,32 @@ export default function WhatsappShare({
       {!isSelectedWp ? (
         <Pressable
           onPressIn={() => setIsSelectedWp(true)}
-          style={styles.container}
+          style={containers.share}
         >
           <IconWhatsapp />
-          <Text
-            style={{
-              fontFamily: "MulishRegular",
-              fontSize: 14,
-              color: "rgba(0,40,89,1)",
-            }}
-          >
-            Enviar por número de WhatsApp
-          </Text>
+          <ThemedText variant="share">Enviar por número de WhatsApp</ThemedText>
         </Pressable>
       ) : (
         <View
           style={[
-            styles.container,
+            containers.share,
             { borderColor: "rgba(3,90,197,1)", gap: 8 },
           ]}
         >
           <IconWhatsapp />
           <Pressable
-            style={{
-              width: 50,
-              height: 20,
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexDirection: "row",
-            }}
+            style={buttons.sufijo}
             onPressIn={() => {
               router.navigate("/select-country");
             }}
           >
-            <Text
-              style={{
-                fontFamily: "MulishRegular",
-                fontSize: 14,
-                color: "rgba(0,40,89,1)",
-              }}
-            >
-              {sufijo}
-            </Text>
+            <ThemedText variant="share">{sufijo}</ThemedText>
             <IconArrowDown />
           </Pressable>
           <TextInput
             style={{ flex: 1, fontFamily: "MulishRegular", fontSize: 14 }}
             placeholder="300 678 9087"
+            placeholderTextColor={Colors.grey}
             onChangeText={setNumber}
             value={number}
             multiline={false}
@@ -96,58 +80,12 @@ export default function WhatsappShare({
             onPressIn={() => {
               sendWhatsappMessage();
             }}
-            style={{
-              width: 53,
-              height: 24,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(3,90,197,1)",
-              borderRadius: 4,
-            }}
+            style={buttons.send}
           >
-            <Text
-              style={{
-                fontFamily: "MulishBold",
-                fontSize: 12,
-                color: "rgba(255,255,255,1)",
-              }}
-            >
-              Enviar
-            </Text>
+            <ThemedText variant="send">Enviar</ThemedText>
           </Pressable>
         </View>
       )}
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderColor: "rgba(211,220,230,1)",
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderRadius: 6,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "transparent",
-    paddingHorizontal: 5,
-    paddingBottom: 5,
-  },
-  infoContainer: {
-    width: "100%",
-    backgroundColor: "withe",
-    borderWidth: 2,
-    borderColor: "black",
-    height: 413,
-    marginHorizontal: 5,
-    borderRadius: 24,
-    paddingTop: 64,
-  },
-});

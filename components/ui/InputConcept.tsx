@@ -1,5 +1,9 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import React from "react";
+import { containers } from "@/styles/containers";
+import { ThemedText } from "../ThemedText";
+import { Colors } from "@/constants/CustumColors";
+import { inputs } from "@/styles/inputs";
 
 export default function InputConcept({
   concept,
@@ -9,48 +13,26 @@ export default function InputConcept({
   setConcept: (concept: string) => void;
 }) {
   return (
-    <View style={styles.containerConcept}>
-      <Text style={styles.textConcept}>Concepto</Text>
+    <View style={containers.concept}>
+      <ThemedText variant="labelMediumBold">Concepto</ThemedText>
       <TextInput
+        style={inputs.concept}
         onChangeText={setConcept}
         value={concept}
         placeholder="Añadir descripción del pago"
-        placeholderTextColor={"rgba(192,204,218,1)"}
+        placeholderTextColor={Colors.grey}
         multiline={true}
         maxLength={140}
         editable
-        style={{
-          fontSize: 14,
-          fontFamily: "MulishRegular",
-          color: "rgba(0,40,89,1)",
-          borderWidth: 1,
-          borderColor: "rgba(229,233,242,1)",
-          borderRadius: 6,
-          paddingHorizontal: 12,
-          paddingVertical: 18,
-        }}
       />
       {concept.length > 0 && (
-        <Text style={styles.infoCharacter}>{concept.length}/140caracteres</Text>
+        <ThemedText
+          variant="labelSmallRegular"
+          style={{ alignSelf: "flex-end" }}
+        >
+          {concept.length}/140caracteres
+        </ThemedText>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  containerConcept: {
-    flexDirection: "column",
-    gap: 5,
-  },
-  textConcept: {
-    fontFamily: "MulishBold",
-    color: "rgba(0,40,89,1)",
-    fontSize: 14,
-  },
-  infoCharacter: {
-    fontFamily: "MulishRegular",
-    color: "rgba(100,113,132,1)",
-    fontSize: 12,
-    alignSelf: "flex-end",
-  },
-});

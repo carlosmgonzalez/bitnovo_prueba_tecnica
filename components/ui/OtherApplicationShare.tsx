@@ -1,47 +1,26 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable } from "react-native";
 import React from "react";
-import * as Sharing from "expo-sharing";
+import Share from "react-native-share";
 import IconShare from "@/assets/icons/share.svg";
+import { containers } from "@/styles/containers";
+import { ThemedText } from "../ThemedText";
 
 export default function OtherApplicationShare({ webUrl }: { webUrl: string }) {
-  const shareLink = async () => {
-    await Sharing.shareAsync(webUrl);
+  const handleShareLink = () => {
+    Share.open({ url: webUrl })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
     <Pressable
-      onPress={shareLink}
-      style={({ pressed }) => [
-        styles.container,
-        {
-          borderColor: pressed ? "rgba(3,90,197,1)" : "rgba(211,220,230,1)",
-        },
-      ]}
+      onPress={handleShareLink}
+      style={({ pressed }) =>
+        pressed ? containers.shareActive : containers.share
+      }
     >
       <IconShare />
-      <Text
-        style={{
-          fontFamily: "MulishRegular",
-          fontSize: 14,
-          color: "rgba(0,40,89,1)",
-        }}
-      >
-        Compartir con otras aplicaciones
-      </Text>
+      <ThemedText variant="share">Compartir con otras aplicaciones</ThemedText>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderColor: "rgba(211,220,230,1)",
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderRadius: 6,
-  },
-});

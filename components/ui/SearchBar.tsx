@@ -1,6 +1,8 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import React from "react";
 import IconSearch from "@/assets/icons/search_normal.svg";
+import { containers } from "@/styles/containers";
+import { typographys } from "@/styles/typography";
 
 interface Props {
   search: string;
@@ -9,7 +11,7 @@ interface Props {
 
 export default function SearchBar({ search, setSearch }: Props) {
   return (
-    <View style={styles.searchContainer}>
+    <View style={containers.search}>
       <IconSearch />
       <TextInput
         onChangeText={setSearch}
@@ -19,25 +21,8 @@ export default function SearchBar({ search, setSearch }: Props) {
         multiline={true}
         maxLength={140}
         editable
-        style={{
-          fontSize: 14,
-          fontFamily: "MulishRegular",
-          color: "rgba(0,40,89,1)",
-        }}
+        style={typographys.labelMediumRegularDarkBlue}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "rgba(229,233,242,1)",
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 14,
-    gap: 5,
-    marginBottom: 15,
-  },
-});

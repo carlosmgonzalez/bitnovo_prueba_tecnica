@@ -10,10 +10,14 @@ import React, { useState } from "react";
 import IconMsm from "@/assets/icons/sms.svg";
 import * as MailComposer from "expo-mail-composer";
 import { useStoreApp } from "@/hooks/useStoreApp";
+import { ThemedText } from "../ThemedText";
+import { buttons } from "@/styles/buttons";
+import { Colors } from "@/constants/CustumColors";
 
 export default function EmailShare() {
   const [recipientEmail, setRecipientEmail] = useState("");
-  const webUrl = useStoreApp((state) => state.webUrl);
+  // const webUrl = useStoreApp((state) => state.webUrl);
+  const { state } = useStoreApp();
   const [isOpen, setIsOpen] = useState(false);
 
   const sendEmail = async () => {
@@ -27,7 +31,7 @@ export default function EmailShare() {
     MailComposer.composeAsync({
       recipients: [recipientEmail],
       subject: "Link de pago",
-      body: `Link: ${webUrl}`,
+      body: `Link: ${state.webUrl}`,
     })
       .then((result) => {
         if (result.status === "sent") {
@@ -42,25 +46,12 @@ export default function EmailShare() {
   return (
     <>
       {!isOpen ? (
-        <Pressable onPress={() => setIsOpen(true)} style={styles.container}>
+        <Pressable onPress={() => setIsOpen(true)} style={buttons.email}>
           <IconMsm />
-          <Text
-            style={{
-              fontFamily: "MulishRegular",
-              fontSize: 14,
-              color: "rgba(0,40,89,1)",
-            }}
-          >
-            Enviar por correo electrónico
-          </Text>
+          <ThemedText variant="share">Enviar por correo electrónico</ThemedText>
         </Pressable>
       ) : (
-        <View
-          style={[
-            styles.container,
-            { borderColor: "rgba(3,90,197,1)", gap: 8 },
-          ]}
-        >
+        <View style={[buttons.emailActive]}>
           <IconMsm />
           <TextInput
             style={{
@@ -70,6 +61,7 @@ export default function EmailShare() {
               height: 20,
             }}
             placeholder="example@gmail.com"
+            placeholderTextColor={Colors.grey}
             onChangeText={setRecipientEmail}
             value={recipientEmail}
             multiline={false}
@@ -80,41 +72,12 @@ export default function EmailShare() {
             onPressIn={() => {
               sendEmail();
             }}
-            style={{
-              width: 53,
-              height: 24,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(3,90,197,1)",
-              borderRadius: 4,
-            }}
+            style={buttons.send}
           >
-            <Text
-              style={{
-                fontFamily: "MulishBold",
-                fontSize: 12,
-                color: "rgba(255,255,255,1)",
-              }}
-            >
-              Enviar
-            </Text>
+            <ThemedText variant="send">Enviar</ThemedText>
           </Pressable>
         </View>
       )}
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: 12,
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderColor: "rgba(211,220,230,1)",
-    paddingHorizontal: 18,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderRadius: 6,
-  },
-});
