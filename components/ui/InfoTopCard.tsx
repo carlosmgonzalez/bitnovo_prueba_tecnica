@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import IconSolicitud from "@/assets/icons/icono_solicitud.svg";
 import { symbolCurrency } from "@/utils/symbolCurrency";

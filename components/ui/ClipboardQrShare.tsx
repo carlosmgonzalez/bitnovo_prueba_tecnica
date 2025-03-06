@@ -1,4 +1,4 @@
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 import React from "react";
 import IconLink from "@/assets/icons/link.svg";
 import IconScanBarcode from "@/assets/icons/scan_barcode.svg";

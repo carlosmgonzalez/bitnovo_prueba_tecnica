@@ -1,7 +1,7 @@
 import { Pressable } from "react-native";
 import React from "react";
 import IconWallet from "@/assets/icons/wallet_add.svg";
-import { CountryProps, CurrencyProps, useStoreApp } from "@/hooks/useStoreApp";
+import { useStoreApp } from "@/hooks/useStoreApp";
 import { useRouter } from "expo-router";
 import { buttons } from "@/styles/buttons";
 import { ThemedText } from "../ThemedText";

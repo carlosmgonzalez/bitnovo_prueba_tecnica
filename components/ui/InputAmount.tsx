@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import React from "react";
 import { symbolCurrency } from "@/utils/symbolCurrency";
 import { CurrencyProps } from "@/hooks/useStoreApp";

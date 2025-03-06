@@ -9,12 +9,8 @@ import { buttons } from "@/styles/buttons";
 
 export default function PaymentCompleted() {
   const router = useRouter();
-  // const setIdentifier = useStoreApp((state) => state.setIdentifier);
-  // const setAmount = useStoreApp((state) => state.setAmount);
-  // const setPaymentStatus = useStoreApp((state) => state.setPaymentStatus);
-  // const setConcept = useStoreApp((state) => state.setConcept);
 
-  const { state, setState } = useStoreApp();
+  const { setState } = useStoreApp();
 
   return (
     <View style={containers.completed}>
@@ -27,10 +23,6 @@ export default function PaymentCompleted() {
       </View>
       <Pressable
         onPress={() => {
-          // setIdentifier("");
-          // setAmount("");
-          // setPaymentStatus("close");
-          // setConcept("");
           setState({
             identifier: "",
             amount: "",

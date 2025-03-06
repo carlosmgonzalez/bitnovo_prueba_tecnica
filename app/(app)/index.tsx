@@ -8,7 +8,7 @@ import { buttons } from "@/styles/buttons";
 import { containers } from "@/styles/containers";
 import { AntDesign } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 export default function HomeScreen() {
@@ -21,10 +21,6 @@ export default function HomeScreen() {
     identifier: string;
     web_url: string;
   }
-
-  // useEffect(() => {
-  //   router.navigate("/payment-completed");
-  // }, []);
 
   const createOrder = () => {
     setIsLoading(true);
@@ -46,9 +42,7 @@ export default function HomeScreen() {
     })
       .then((res) => {
         res.json().then((data: DataProps) => {
-          // setIdentifier(data.identifier);
           setState({ identifier: data.identifier });
-          // setWebUrl(data.web_url);
           setState({ webUrl: data.web_url });
           console.log(data);
         });

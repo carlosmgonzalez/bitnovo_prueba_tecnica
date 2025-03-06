@@ -16,7 +16,6 @@ import { Colors } from "@/constants/CustumColors";
 
 export default function EmailShare() {
   const [recipientEmail, setRecipientEmail] = useState("");
-  // const webUrl = useStoreApp((state) => state.webUrl);
   const { state } = useStoreApp();
   const [isOpen, setIsOpen] = useState(false);
 

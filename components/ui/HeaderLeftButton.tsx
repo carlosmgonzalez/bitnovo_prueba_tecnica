@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import { buttons } from "@/styles/buttons";

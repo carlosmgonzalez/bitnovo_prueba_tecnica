@@ -26,7 +26,7 @@ export default function WhatsappShare({
 
   const sendWhatsappMessage = () => {
     const phoneNumber = `${sufijo}${number}`;
-    const message = "Hola este es el link para el pago: pay.bitnovo.com/59f9g9";
+    const message = `Hola este es el link para el pago: ${state.webUrl}`;
     const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
       message
     )}`;
